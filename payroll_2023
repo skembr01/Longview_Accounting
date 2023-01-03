@@ -64,8 +64,6 @@ class employee:
                         value += 2
             self.fed = value
     def final(self):
-        # if self.name == 'oscar':
-        #     self.pay = self.gross - self.social - self.med - self.state - self.oscarfed
         if self.name == 'mike':
             self.pay = self.gross - self.social - self.med - self.state - self.fed - self.child
         else:
@@ -82,15 +80,7 @@ class employee:
         self.pay = round(self.pay, 2)
         self.social = round(self.social, 2)
         self.med = round(self.med, 2)
-        if self.name == 'oscar':
-            # return print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(round(self.oscarfed, 2))+'\n'+'net: '+str(self.pay))
-            return print(self.name, self.gross, self.social, self.med, self.state, self.fed, self.pay)
-        # elif self.name == 'mike':
-        #     # return print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(self.fed)+'\n'+'net: '+str(self.pay))
-        #     return print(self.name, self.gross, self.social, self.med, self.state, self.fed, )
-        else:
-            return print(self.name, self.gross, self.social, self.med, self.state, self.fed, self.pay)
-            return print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(self.fed)+'\n'+'net: '+str(self.pay))
+        return print(self.name, self.gross, self.social, self.med, self.state, self.fed, self.pay)
 
  
 name = input()
