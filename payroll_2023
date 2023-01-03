@@ -81,20 +81,24 @@ class employee:
         self.social = round(self.social, 2)
         self.med = round(self.med, 2)
         if self.name == 'oscar':
-            print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(round(self.oscarfed, 2))+'\n'+'net: '+str(self.pay))
-        elif self.name == 'mike':
-            print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(self.fed)+'\n'+'net: '+str(self.pay))
+            # return print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(round(self.oscarfed, 2))+'\n'+'net: '+str(self.pay))
+            return print(self.name, self.gross, self.social, self.med, self.state, self.oscarfed, self.pay)
+        # elif self.name == 'mike':
+        #     # return print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(self.fed)+'\n'+'net: '+str(self.pay))
+        #     return print(self.name, self.gross, self.social, self.med, self.state, self.fed, )
         else:
-            print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(self.fed)+'\n'+'net: '+str(self.pay))
+            return print(self.name, self.gross, self.social, self.med, self.state, self.fed, self.pay)
+            return print('gross: '+str(self.gross)+'\n'+'ss: '+str(self.social)+'\n'+'med: '+str(self.med)+'\n'+'state: '+str(self.state)+'\n'+'fed: '+str(self.fed)+'\n'+'net: '+str(self.pay))
 
  
-name = input('name: ')
+name = input()
 name = name.lower()
 if name != 'ross' and name!= 'matt':
-    hours = int(input('hours: '))
+    hours = int(input())
 else:
     hours = 0
 person = employee(name, hours)
 person.print_statement()
+
 
 
