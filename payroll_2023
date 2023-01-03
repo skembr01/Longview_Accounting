@@ -15,7 +15,7 @@ class employee:
         self.med = self.gross * 0.0145  
         self.child = 58.20   
     def state_tax(self):
-        self.state = round(((int(wage / 10) - 6) * 0.45) + 0.35, 2)
+        self.state = round(((int(self.gross / 10) - 6) * 0.45) + 0.35, 2)
     def fed_tax(self):
         if self.name != 'oscar':
             if 85 <= self.gross < 285:
