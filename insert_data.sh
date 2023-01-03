@@ -18,10 +18,16 @@ STATE=${OUTPUT[4]}
 FED=${OUTPUT[5]}
 PAY=${OUTPUT[6]}
 
-if [[ $NAME == 'mike' ]]
-then 
-    CHILD=58.20
-    echo $NAME $GROSS $SOCIAL $MED $STATE $FED $CHILD $PAY
-else 
-    echo $NAME $GROSS $SOCIAL $MED $STATE $FED $PAY
-fi
+echo $PAY
+echo $GROSS
+
+# if [[ $NAME == 'mike' ]]
+# then 
+#     CHILD=58.20
+#     INSERT_INTO_DB=$($PSQL "INSERT INTO $NAME(gross, social, medicare, state, federal, net, child_support) VALUES($GROSS, $SOCIAL, $MED, $STATE, $FED, $PAY, $CHILD)")
+# else 
+#     echo $NAME $GROSS $SOCIAL $MED $STATE $FED $PAY
+# fi
+
+# INSERT_INTO_DB=$($PSQL "INSERT INTO $NAME(gross, social, medicare, state, federal, net, child_support) VALUES($GROSS, $SOCIAL, $MED, $STATE, $FED, $PAY, $CHILD)")
+
