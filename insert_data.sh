@@ -27,30 +27,38 @@ else
 fi
 
 #obtaining employee id by name
-EMP_ID=$($PSQL "SELECT employee_id FROM employees WHERE name = $NAME")
+EMP_ID=$($PSQL "SELECT employee_id FROM employees WHERE name = '$NAME'")
+EMP_ID_2023=$($PSQL "SELECT employee_id FROM year_2023 WHERE employee_id = $EMP_ID")
+
+#function for adding values when updating in 2023
+add() { n="$@"; bc <<< "${n// /+}"; }
 
 #checking if employee id is in 2023
-if [[ -z $EMP_ID ]]
+if [[ -z $EMP_ID_2023 ]]
 then
     INITIAL_INSERT_2023=$($PSQL "INSERT INTO year_2023(employee_id, gross, net, federal, state, social, medicare) VALUES($EMP_ID, $GROSS, $PAY, $FED, $STATE, $SOCIAL, $MED)")
 else
     GROSS_2023=$($PSQL "SELECT gross FROM year_2023 WHERE employee_id = $EMP_ID")
-    NEW_GROSS=$(( $GROSS_2023 + $GROSS ))
+    NEW_GROSS=$(add $GROSS_2023 $GROSS)
     UPDATE_GROSS=$($PSQL "UPDATE year_2023 SET gross = $NEW_GROSS")
     NET_2023=$($PSQL "SELECT net FROM year_2023 WHERE employee_id = $EMP_ID")
-    NEW_NET=$(( $NET_2023 + $PAY ))
+    # NEW_NET=$(( $NET_2023 + $PAY ))
+    NEW_NET=$(add $NET_2023 $PAY)
     UPDATE_NET=$($PSQL "UPDATE year_2023 SET net = $NEW_NET")
     FED_2023=$($PSQL "SELECT federal FROM year_2023 WHERE employee_id = $EMP_ID")
-    NEW_FED=$(( $FED_2023 + $FED ))
+    # NEW_FED=$(( $FED_2023 + $FED ))
+    NEW_FED=$(add $FED $FED_2023)
     UPDATE_FED=$($PSQL "UPDATE year_2023 SET federal = $NEW_FED")
     STATE_2023=$($PSQL "SELECT state FROM year_2023 WHERE employee_id = $EMP_ID")
-    NEW_STATE=$(( $STATE_2023 + $STATE ))
+    # NEW_STATE=$(( $STATE_2023 + $STATE ))
+    NEW_STATE=$(add $STATE $STATE_2023)
     UPDATE_STATE=$($PSQL "UPDATE year_2023 SET state = $NEW_STATE")
     SOCIAL_2023=$($PSQL "SELECT social FROM year_2023 WHERE employee_id = $EMP_ID")
-    NEW_SOCIAL=$ (( $SOCIAL_2023 + $SOCIAL ))
+    # NEW_SOCIAL=$(( $SOCIAL_2023 + $SOCIAL ))
+    NEW_SOCIAL=$(add $SOCIAL $SOCIAL_2023)
     UPDATE_SOCIAL=$($PSQL "UPDATE year_2023 SET social = $NEW_SOCIAL")
     MED_2023=$($PSQL "SELECT medicare FROM year_2023 WHERE employee_id = $EMP_ID")
-    NEW_MED=$(( $MED_2023 + $MED ))
-    UPDATE_MED=$($PSQL "UPDATE year_2023 SET medicare = $NEW_MED)
-
-
+    # NEW_MED=$(( $MED_2023 + $MED ))
+    NEW_MED=$(add $MED $MED_2023)
+    UPDATE_MED=$($PSQL "UPDATE year_2023 SET medicare = $NEW_MED")
+fi
