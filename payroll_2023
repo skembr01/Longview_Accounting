@@ -91,6 +91,3 @@ else:
     hours = 0
 person = employee(name, hours)
 person.print_statement()
-
-
-

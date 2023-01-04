@@ -1,16 +1,14 @@
 #!/bin/bash
 
+#psql command to connect to my database
 PSQL="psql --username=sam --dbname=longview -t --no-align -c"
-
+#getting output from payroll python script
 OUTPUT=( $(python3 payroll_2023) )
-# echo $OUTPUT
-# echo ${OUTPUT[1]}
-# # NAME=${OUTPUT[0]}
-# # echo $NAME
+#length of output
 LEN=${#OUTPUT[@]}
 
+#getting variables with correct labels
 NAME=${OUTPUT[0]}
-# $OUTPUT | read NAME GROSS SOCIAL MED STATE FED PAY 
 GROSS=${OUTPUT[1]}
 SOCIAL=${OUTPUT[2]}
 MED=${OUTPUT[3]}
@@ -18,16 +16,41 @@ STATE=${OUTPUT[4]}
 FED=${OUTPUT[5]}
 PAY=${OUTPUT[6]}
 
-echo $PAY
-echo $GROSS
+#inserting into mike with child_support, else every other insert
+if [[ $NAME == 'mike' ]]
+then 
+    CHILD=58.20
+    INSERT_INTO_DB=$($PSQL "INSERT INTO $NAME(gross, social, medicare, state, federal, net, child_support) VALUES($GROSS, $SOCIAL, $MED, $STATE, $FED, $PAY, $CHILD)")
+else 
+    INSERT_INTO_DB=$($PSQL "INSERT INTO $NAME(gross, social, medicare, state, federal, net) VALUES($GROSS, $SOCIAL, $MED, $STATE, $FED, $PAY)")
 
-# if [[ $NAME == 'mike' ]]
-# then 
-#     CHILD=58.20
-#     INSERT_INTO_DB=$($PSQL "INSERT INTO $NAME(gross, social, medicare, state, federal, net, child_support) VALUES($GROSS, $SOCIAL, $MED, $STATE, $FED, $PAY, $CHILD)")
-# else 
-#     echo $NAME $GROSS $SOCIAL $MED $STATE $FED $PAY
-# fi
+fi
 
-# INSERT_INTO_DB=$($PSQL "INSERT INTO $NAME(gross, social, medicare, state, federal, net, child_support) VALUES($GROSS, $SOCIAL, $MED, $STATE, $FED, $PAY, $CHILD)")
+#obtaining employee id by name
+EMP_ID=$($PSQL "SELECT employee_id FROM employees WHERE name = $NAME")
+
+#checking if employee id is in 2023
+if [[ -z $EMP_ID ]]
+then
+    INITIAL_INSERT_2023=$($PSQL "INSERT INTO year_2023(employee_id, gross, net, federal, state, social, medicare) VALUES($EMP_ID, $GROSS, $PAY, $FED, $STATE, $SOCIAL, $MED)")
+else
+    GROSS_2023=$($PSQL "SELECT gross FROM year_2023 WHERE employee_id = $EMP_ID")
+    NEW_GROSS=$(( $GROSS_2023 + $GROSS ))
+    UPDATE_GROSS=$($PSQL "UPDATE year_2023 SET gross = $NEW_GROSS")
+    NET_2023=$($PSQL "SELECT net FROM year_2023 WHERE employee_id = $EMP_ID")
+    NEW_NET=$(( $NET_2023 + $PAY ))
+    UPDATE_NET=$($PSQL "UPDATE year_2023 SET net = $NEW_NET")
+    FED_2023=$($PSQL "SELECT federal FROM year_2023 WHERE employee_id = $EMP_ID")
+    NEW_FED=$(( $FED_2023 + $FED ))
+    UPDATE_FED=$($PSQL "UPDATE year_2023 SET federal = $NEW_FED")
+    STATE_2023=$($PSQL "SELECT state FROM year_2023 WHERE employee_id = $EMP_ID")
+    NEW_STATE=$(( $STATE_2023 + $STATE ))
+    UPDATE_STATE=$($PSQL "UPDATE year_2023 SET state = $NEW_STATE")
+    SOCIAL_2023=$($PSQL "SELECT social FROM year_2023 WHERE employee_id = $EMP_ID")
+    NEW_SOCIAL=$ (( $SOCIAL_2023 + $SOCIAL ))
+    UPDATE_SOCIAL=$($PSQL "UPDATE year_2023 SET social = $NEW_SOCIAL")
+    MED_2023=$($PSQL "SELECT medicare FROM year_2023 WHERE employee_id = $EMP_ID")
+    NEW_MED=$(( $MED_2023 + $MED ))
+    UPDATE_MED=$($PSQL "UPDATE year_2023 SET medicare = $NEW_MED)
+
 
