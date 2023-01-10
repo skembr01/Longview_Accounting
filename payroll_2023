@@ -30,7 +30,7 @@ class employee:
                     value += 1
             elif 330 <= self.gross < 390:
                 cycles = int((self.gross - 330) / 15)
-                value = 24
+                value = 22
                 for i in range(0, cycles +1 ):
                     value += 2
             else:
