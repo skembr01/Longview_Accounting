@@ -3,7 +3,7 @@ class employee:
         self.name = name
         if self.name != 'matt':
             self.hours = hours
-        if self.name == 'amanda' or self.name == 'bradley' or self.name = 'oscar':
+        if self.name == 'amanda' or self.name == 'bradley' or self.name == 'oscar':
             self.gross = self.hours * 10 
         elif self.name == 'josh':
             self.gross = self.hours * 15
