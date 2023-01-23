@@ -86,6 +86,13 @@ class employee:
         self.pay = round(self.pay, 2)
         self.social = round(self.social, 2)
         self.med = round(self.med, 2)
+        # print('name:', self.name, '\n',
+        # 'gross:', self.gross, '\n',
+        # 'social:', self.social, '\n',
+        # 'med:', self.med, '\n',
+        # 'state:', self.state, '\n',
+        # 'fed:', self.fed, '\n',
+        # 'net:', self.pay)
         return print(self.name, self.gross, self.social, self.med, self.state, self.fed, self.pay)
 
  
